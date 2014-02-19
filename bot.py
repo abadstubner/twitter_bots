@@ -18,7 +18,13 @@ t = Twitter(
 results = t.search.tweets(q="@drdaniellms", result_type="recent")
 max_id_str = results['search_metadata']['max_id_str']
 
-for stat in results['statuses']:
-    print stat['user']['screen_name'], stat['text']
+
+# This seems a little harsh on the pounding the API
+while True:
+    for result in results['statuses']:
+        print result['user']['screen_name'], result['text']
+    results = t.search.tweets(q="@drdaniellms", result_type="recent", since_id=max_id_str)
+    max_id_str = results['search_metadata']['max_id_str']
+
 
 
